@@ -17,7 +17,26 @@ namespace GitStat.ImportConsole
         /// </summary>
         public static Commit[] ReadFromCsv()
         {
-            throw new NotImplementedException();
+            string[][] matrix =  MyFile.ReadStringMatrixFromCsv(Filename, true);
+            var developer = matrix
+             .GroupBy(line => line[0])
+             .Select(grp => new Developer
+             {
+                 Name = grp.Key
+             })
+             .ToArray();
+            var commit = matrix
+                .Select(line => new Commit
+                {
+                    Developer = developer.Single(d => d.Name == line[0]),
+                    Date = DateTime.Parse(line[1]),
+                    FilesChanges = Int16.Parse(line[4]),
+                    Insertions = Int16.Parse(line[5]),
+                    Deletions = Int16.Parse(line[6])
+
+                })
+                .ToArray();
+            return commit;
         }
 
     }
