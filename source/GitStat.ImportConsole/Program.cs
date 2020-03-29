@@ -3,13 +3,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using GitStat.Core.Contracts;
+using GitStat.Core.Entities;
 using GitStat.Persistence;
 
 namespace GitStat.ImportConsole
 {
     class Program
     {
-        static void Main()
+        static async System.Threading.Tasks.Task Main()
         {
             Console.WriteLine("Import der Commits in die Datenbank");
             using (IUnitOfWork unitOfWorkImport = new UnitOfWork())
@@ -41,10 +42,33 @@ namespace GitStat.ImportConsole
             Console.WriteLine("=================");
             using (IUnitOfWork unitOfWork = new UnitOfWork())
             {
+                Console.WriteLine("Commits der letzten 4 Wochen");
+                Console.WriteLine("----------------------------");
+                Console.WriteLine();
+                var weeks = unitOfWork.CommitRepository
+                    .Commits4Weeks();
+                WriteMeasurements(weeks);
+
+                Console.WriteLine("Commits der letzten 4 Wochen");
+                Console.WriteLine("----------------------------");
+                Console.WriteLine();
+                var id = unitOfWork.CommitRepository
+                    .CommitWithId4();
+                WriteMeasurements(id);
             }
+
             Console.Write("Beenden mit Eingabetaste ...");
             Console.ReadLine();
         }
+        private static void WriteMeasurements(Commit[] commits)
+        {
+            Console.WriteLine("Developer           Date           FileChanges         Insertions      Deletions");
+            for (int i = 0; i < commits.Length; i++)
+            {
+                Console.WriteLine($"{commits[i].Developer} {commits[i].Date} {commits[i].FilesChanges} {commits[i].Insertions} {commits[i].Deletions}");
+            }
+        }
 
     }
+
 }
