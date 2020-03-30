@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using ConsoleTables;
 using System.Linq;
 using System.Text;
 using GitStat.Core.Contracts;
@@ -47,26 +48,41 @@ namespace GitStat.ImportConsole
                 Console.WriteLine();
                 var weeks = unitOfWork.CommitRepository
                     .Commits4Weeks();
-                WriteMeasurements(weeks);
+                Print(
+                    $"Team Tabelle (sortiert nach Rang):",
+                    ConsoleTable
+                        .From(weeks)
+                        .Configure(o => o.NumberAlignment = Alignment.Right)
+                        .ToStringAlternative());
 
                 Console.WriteLine("Commits der letzten 4 Wochen");
                 Console.WriteLine("----------------------------");
                 Console.WriteLine();
                 var id = unitOfWork.CommitRepository
                     .CommitWithId4();
-                WriteMeasurements(id);
+                //WriteMeasurements(id);
             }
 
             Console.Write("Beenden mit Eingabetaste ...");
             Console.ReadLine();
         }
-        private static void WriteMeasurements(Commit[] commits)
+        private static void Print(string c, string res)
         {
-            Console.WriteLine("Developer           Date           FileChanges         Insertions      Deletions");
-            for (int i = 0; i < commits.Length; i++)
+            Console.WriteLine();
+
+            if (!string.IsNullOrEmpty(c))
             {
-                Console.WriteLine($"{commits[i].Developer} {commits[i].Date} {commits[i].FilesChanges} {commits[i].Insertions} {commits[i].Deletions}");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(new String('=', c.Length));
+                Console.WriteLine(c);
+                Console.WriteLine(new String('=', c.Length));
+                Console.ResetColor();
+                Console.WriteLine();
             }
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine(res);
+            Console.ResetColor();
+            Console.WriteLine();
         }
 
     }

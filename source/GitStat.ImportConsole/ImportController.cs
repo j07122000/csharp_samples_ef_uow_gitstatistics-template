@@ -11,6 +11,33 @@ namespace GitStat.ImportConsole
     public class ImportController
     {
         const string Filename = "commits.txt";
+        private static string newString = null;
+
+        public static bool Header(string[] array)
+        {
+            if (array.Length > 4)
+            {
+                foreach (var item in array)
+                {
+
+                    newString = newString + item + ';';
+                }
+            }
+            return true;
+        }
+        public static bool Body(string[] array)
+        {
+            if (Header(array) == true)
+            {
+                foreach (var item in array)
+                {
+
+                    newString = newString + item + ';';
+                }
+            }
+            return true;
+        }
+
 
         /// <summary>
         /// Liefert die Messwerte mit den dazugehörigen Sensoren
@@ -21,29 +48,33 @@ namespace GitStat.ImportConsole
             List<Commit> com = new List<Commit>();
             string[] txt = File.ReadAllLines(MyFile.GetFullNameInApplicationTree(Filename));
 
-            return null;
-            //    string[] dev = File.ReadAllLines(MyFile.GetFullNameInApplicationTree(Filename));
-            /*  string[][] com = MyFile.ReadStringMatrixFromCsv(Filename, true);
-            var developer = com
-             .GroupBy(line => line[0])
-             .Select(grp => new Developer()
-             {
-                 Name = grp.Key.ToString()
-             })
-             .ToArray();
-            Commit[] commit = com
-                .Select(line => new Commit()
+            foreach (var a in txt)
+            {
+
+                if (Header(txt) == true && Body(txt) == false)
                 {
-                    Developer = dev.Where(d => d.Name.Equals(line[0])).Single(),
-                    Date = DateTime.Parse(line[1]),
-                    FilesChanges = Convert.ToInt32(line[2])
-                   /* Insertions = Int16.Parse(line[5]),
-                    Deletions = Int16.Parse(line[6])
+                    Commit commit;
+                   // Developer deve;
 
-                })
-                .ToArray();
-            return commit;*/
+                    string[] commits = newString.Split(';');
+                    com.Add(commit = new Commit
+                    {
+                        Developer = new Developer
+                        {
+                            Name = commits[1]
+                        },
+                        
+                        Date = DateTime.Parse(commits[2]),
+                        FilesChanges = Convert.ToInt32(commits[4]),
+                        Insertions  = Convert.ToInt32(commits[5]),
+
+                    });
+                
+                   
+                }
+               
+            }
+            return com.ToArray();
         }
-
     }
 }

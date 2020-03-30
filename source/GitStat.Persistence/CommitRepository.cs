@@ -21,15 +21,14 @@ namespace GitStat.Persistence
         {
             _dbContext.Commits.AddRange(commits);
         }
-        public  Commit[] Commits4Weeks()
+        public  Commit Commits4Weeks()
         {
             return null;
         }
          public Commit[] CommitWithId4()
         {
             return _dbContext.Commits
-                .Where(i => i.DeveloperId == 4)
-                .ToArray();
+                .Where(i => i.DeveloperId == 4).ToArray();
         }
 
 
