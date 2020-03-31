@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitStat.Core", "GitStat.Core\GitStat.Core.csproj", "{87EF805B-46F8-4BE4-8762-908BDEB573C9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D02AD5C-520D-4E78-9D1B-5F47882A87F4} = {5D02AD5C-520D-4E78-9D1B-5F47882A87F4}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitStat.Persistence", "GitStat.Persistence\GitStat.Persistence.csproj", "{8713277D-3C23-4FE4-B3FE-3A428D2BF4F9}"
 EndProject

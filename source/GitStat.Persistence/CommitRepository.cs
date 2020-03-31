@@ -21,14 +21,19 @@ namespace GitStat.Persistence
         {
             _dbContext.Commits.AddRange(commits);
         }
-        public  Commit Commits4Weeks()
-        {
-            return null;
-        }
-         public Commit[] CommitWithId4()
+        public Commit[] Commits4Weeks()
         {
             return _dbContext.Commits
-                .Where(i => i.DeveloperId == 4).ToArray();
+                .Where(c => c.Date.Month == 3)
+                .Include(d => d.Developer)
+                .OrderBy(d => d.Date)
+                .ToArray();
+        }
+         public Commit CommitWithId4()
+        {
+            return _dbContext.Commits
+                .Include(d => d.Developer)
+                .SingleOrDefault(i => i.DeveloperId == 4);
         }
 
 

@@ -6,6 +6,7 @@ using System.Text;
 using GitStat.Core.Contracts;
 using GitStat.Core.Entities;
 using GitStat.Persistence;
+using System.Collections.Generic;
 
 namespace GitStat.ImportConsole
 {
@@ -14,7 +15,7 @@ namespace GitStat.ImportConsole
         static async System.Threading.Tasks.Task Main()
         {
             Console.WriteLine("Import der Commits in die Datenbank");
-            using (IUnitOfWork unitOfWorkImport = new UnitOfWork())
+           using (IUnitOfWork unitOfWorkImport = new UnitOfWork())
             {
                 Console.WriteLine("Datenbank löschen");
                 unitOfWorkImport.DeleteDatabase();
@@ -43,48 +44,54 @@ namespace GitStat.ImportConsole
             Console.WriteLine("=================");
             using (IUnitOfWork unitOfWork = new UnitOfWork())
             {
+             
+                Console.WriteLine();
                 Console.WriteLine("Commits der letzten 4 Wochen");
                 Console.WriteLine("----------------------------");
-                Console.WriteLine();
                 var weeks = unitOfWork.CommitRepository
                     .Commits4Weeks();
-                Print(
-                    $"Team Tabelle (sortiert nach Rang):",
-                    ConsoleTable
-                        .From(weeks)
-                        .Configure(o => o.NumberAlignment = Alignment.Right)
-                        .ToStringAlternative());
+                 WriteCommit(weeks);
+                Console.WriteLine();
 
-                Console.WriteLine("Commits der letzten 4 Wochen");
+                Console.WriteLine("Commit mit Id 4");
                 Console.WriteLine("----------------------------");
                 Console.WriteLine();
                 var id = unitOfWork.CommitRepository
                     .CommitWithId4();
-                //WriteMeasurements(id);
+                Console.WriteLine(id.ToString());
+                Console.WriteLine();
+
+                Console.WriteLine("Statistik der Commits der Developer");
+                Console.WriteLine("----------------------------");
+                Console.WriteLine();
+                var statistik = unitOfWork.CommitRepository
+                   .CommitAndDev();
+                WriteStatistik(statistik);
+                Console.WriteLine();
+
             }
 
             Console.Write("Beenden mit Eingabetaste ...");
             Console.ReadLine();
         }
-        private static void Print(string c, string res)
+     
+        private static void WriteCommit(Commit[] commits)
         {
-            Console.WriteLine();
-
-            if (!string.IsNullOrEmpty(c))
+            Console.WriteLine("Developer            Date        FileChanges       Insertions       Deletions");
+            for (int i = 0; i < commits.Length; i++)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(new String('=', c.Length));
-                Console.WriteLine(c);
-                Console.WriteLine(new String('=', c.Length));
-                Console.ResetColor();
-                Console.WriteLine();
+                Console.WriteLine($"{commits[i].Developer.Name}       {commits[i].Date.ToShortDateString()}          {commits[i].FilesChanges}       {commits[i].Insertions}         {commits[i].Deletions}");
             }
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine(res);
-            Console.ResetColor();
-            Console.WriteLine();
         }
-
+        private static void WriteStatistik((Commit Commit, Double CommitCount)[] values)
+        {
+            Console.WriteLine("Developer            Commits        FileChanges       Insertions       Deletions");
+            for (int i = 0; i < values.Length; i++)
+            {
+                var result = values[i];
+                Console.WriteLine($"{result.Item1.Developer}       {result.Item2:f2}          {result.Item1.FilesChanges}       {result.Item1.Insertions}         {result.Item1.Deletions}");
+            }
+        }
     }
 
 }

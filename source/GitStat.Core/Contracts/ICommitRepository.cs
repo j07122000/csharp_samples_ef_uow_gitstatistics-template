@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GitStat.Core.DataTransferObjects;
 using GitStat.Core.Entities;
 
 namespace GitStat.Core.Contracts
@@ -10,6 +11,6 @@ namespace GitStat.Core.Contracts
     {
         void AddRange(Commit[] commits);
         Commit[] Commits4Weeks();
-        Commit[] CommitWithId4();
+        Commit CommitWithId4();
     }
 }
