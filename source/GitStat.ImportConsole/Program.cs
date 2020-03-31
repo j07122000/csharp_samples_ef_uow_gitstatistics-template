@@ -64,7 +64,7 @@ namespace GitStat.ImportConsole
                 Console.WriteLine("Statistik der Commits der Developer");
                 Console.WriteLine("----------------------------");
                 Console.WriteLine();
-                var statistik = unitOfWork.CommitRepository
+                var statistik =  unitOfWork.DeveloperRepository
                    .CommitAndDev();
                 WriteStatistik(statistik);
                 Console.WriteLine();
@@ -83,13 +83,13 @@ namespace GitStat.ImportConsole
                 Console.WriteLine($"{commits[i].Developer.Name}       {commits[i].Date.ToShortDateString()}          {commits[i].FilesChanges}       {commits[i].Insertions}         {commits[i].Deletions}");
             }
         }
-        private static void WriteStatistik((Commit Commit, Double CommitCount)[] values)
+        private static void WriteStatistik((string DeveloperName, int Commit, int FChanges, int Insertion, int Deletion)[] values)
         {
             Console.WriteLine("Developer            Commits        FileChanges       Insertions       Deletions");
             for (int i = 0; i < values.Length; i++)
             {
                 var result = values[i];
-                Console.WriteLine($"{result.Item1.Developer}       {result.Item2:f2}          {result.Item1.FilesChanges}       {result.Item1.Insertions}         {result.Item1.Deletions}");
+                Console.WriteLine($"{result.DeveloperName}       {result.Commit}          {result.FChanges}       {result.Insertion}         {result.Deletion}");
             }
         }
     }

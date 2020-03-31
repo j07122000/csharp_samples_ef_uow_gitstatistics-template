@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GitStat.Core.DataTransferObjects;
 using GitStat.Core.Entities;
 
 namespace GitStat.Core.Contracts
