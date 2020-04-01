@@ -77,7 +77,7 @@ namespace GitStat.ImportConsole
      
         private static void WriteCommit(Commit[] commits)
         {
-            Console.WriteLine("Developer            Date        FileChanges       Insertions       Deletions");
+            Console.WriteLine("Developer            Date        FileChanges      Insertions       Deletions");
             for (int i = 0; i < commits.Length; i++)
             {
                 Console.WriteLine($"{commits[i].Developer.Name}       {commits[i].Date.ToShortDateString()}          {commits[i].FilesChanges}       {commits[i].Insertions}         {commits[i].Deletions}");
@@ -85,11 +85,11 @@ namespace GitStat.ImportConsole
         }
         private static void WriteStatistik((string DeveloperName, int Commit, int FChanges, int Insertion, int Deletion)[] values)
         {
-            Console.WriteLine("Developer            Commits        FileChanges       Insertions       Deletions");
+            Console.WriteLine("Developer             Commits        FileChanges       Insertions       Deletions");
             for (int i = 0; i < values.Length; i++)
             {
                 var result = values[i];
-                Console.WriteLine($"{result.DeveloperName}       {result.Commit}          {result.FChanges}       {result.Insertion}         {result.Deletion}");
+                Console.WriteLine($"{result.DeveloperName,-19}       {result.Commit,-7}          {result.FChanges,-8}       {result.Insertion,-9}         {result.Deletion}");
             }
         }
     }
