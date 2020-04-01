@@ -28,7 +28,7 @@ namespace GitStat.Persistence
 
                 })
                 .OrderByDescending(d => d.Commits)
-                .AsEnumerable()
+                .AsEnumerable()                 //wird zu enumerable konvertiert
                 .Select(c => (c.DeveloperName, c.Commits, c.FChanges, c.Insertion, c.Deletion))
                 .ToArray();
           

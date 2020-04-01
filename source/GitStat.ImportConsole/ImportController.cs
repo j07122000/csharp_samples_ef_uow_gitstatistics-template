@@ -15,6 +15,7 @@ namespace GitStat.ImportConsole
         //habe mir den code von einem Mitschüler genommen da ich nicht ganz 
         //wusste wie ich die Textdatei einlesen soll und den ImportController 
         //aber brauchte um weiter zu arbeiten
+        //der ImportController funktioniert allerdings nicht ganz bei mir  
         /*  private static string newString = null;
 
           public static bool Header(string[] array)
